@@ -3,9 +3,9 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-  args_bin = []
+  args_bin = [] 
+  cmd = "go build -o .\\tmp\\main.exe .\\cmd\\golang-library-api\\main.go"
   bin = "tmp\\main.exe"
-  cmd = "go build -o ./tmp/main.exe ."
   delay = 0
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []
