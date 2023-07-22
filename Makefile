@@ -15,10 +15,10 @@ install: env
 create-migration: env
 	@goose -dir $(MIGRATIONS_DIR) create $(name) sql
 
-run-migrations:
+run-migrations: env
 	@goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_CONNECTION_STRING) up
 
-goose:
+goose: env
 	@goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_CONNECTION_STRING) $(command)
 
 env:
