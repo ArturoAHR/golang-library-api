@@ -5,15 +5,21 @@ export
 install: env
 # Setup Migrations
 	go install github.com/pressly/goose/v3/cmd/goose@latest
-	@goose -dir $(MIGRATIONS_DIR) postgres "host=$(DATABASE_HOST) user=$(DATABASE_USER) password=$(DATABASE_PASSWORD) dbname=$(library-api) sslmode=disable" status
-	goose -dir $(MIGRATIONS_DIR) up
+	run-migrations
 
 # Setup Live Reloading
 	go install github.com/cosmtrek/air@latest
 	air -c .air.toml
 
+# Migration Commands
 create-migration: env
-	goose -dir $(MIGRATIONS_DIR) create $(name)
+	@goose -dir $(MIGRATIONS_DIR) create $(name) sql
+
+run-migrations:
+	@goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_CONNECTION_STRING) up
+
+goose:
+	@goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_CONNECTION_STRING) $(command)
 
 env:
 	@source .env
