@@ -13,13 +13,17 @@ install: env
 
 # Migration Commands
 create-migration: env
-	@goose -dir $(MIGRATIONS_DIR) create $(name) sql
+	goose -dir $(MIGRATIONS_DIR) create $(name) sql
 
 run-migrations: env
-	@goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_CONNECTION_STRING) up
+	goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_DSN) up
 
 goose: env
-	@goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_CONNECTION_STRING) $(command)
+	goose -dir $(MIGRATIONS_DIR) postgres $(GOOSE_DSN) $(command)
+
+# Seeder Commands
+run-seeder: env
+	go run scripts/seeder/main.go
 
 env:
 	@source .env
