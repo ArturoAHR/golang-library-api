@@ -8,19 +8,19 @@ import (
 )
 
 type BookFormat struct {
-	Id         uuid.UUID      `gorm:"column:id;primaryKey;type:uuid"`
-	BookId     uuid.UUID      `gorm:"column:book_id;type:uuid"`
-	FormatId   uuid.UUID      `gorm:"column:format_id;type:uuid"`
-	ProviderId uuid.UUID      `gorm:"column:provider_id;type:uuid"`
-	CreatedAt  time.Time      `gorm:"column:created_at"`
-	UpdatedAt  time.Time      `gorm:"column:updated_at"`
-	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at"`
+	Id         uuid.UUID      `gorm:"column:id;primaryKey;type:uuid" json:"id"`
+	BookId     uuid.UUID      `gorm:"column:book_id;type:uuid" json:"bookId"`
+	FormatId   uuid.UUID      `gorm:"column:format_id;type:uuid" json:"formatId"`
+	ProviderId uuid.UUID      `gorm:"column:provider_id;type:uuid" json:"providerId"`
+	CreatedAt  time.Time      `gorm:"column:created_at" json:"createdAt"`
+	UpdatedAt  time.Time      `gorm:"column:updated_at" json:"updatedAt"`
+	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at" json:"deletedAt"`
 
-	Book     Book     `gorm:"foreignKey:BookId"`
-	Format   Format   `gorm:"foreignKey:FormatId"`
-	Provider Provider `gorm:"foreignKey:ProviderId"`
+	Book     Book     `gorm:"foreignKey:BookId" json:"book,omitempty"`
+	Format   Format   `gorm:"foreignKey:FormatId" json:"format,omitempty"`
+	Provider Provider `gorm:"foreignKey:ProviderId" json:"provider,omitempty"`
 
-	BookPages []BookPage
+	BookPages []BookPage `json:"bookPages,omitempty"`
 }
 
 func (BookFormat) TableName() string {
