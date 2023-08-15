@@ -1,12 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"time"
 
-	dbmodels "github.com/ArturoAHR/golang-library-api/database/models"
-	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 
 	"gorm.io/driver/postgres"
@@ -30,25 +26,5 @@ func init() {
 }
 
 func main() {
-
-	book := dbmodels.Book{
-		Id:              uuid.New(),
-		Name:            "Test Book",
-		Author:          "Test Author",
-		Pages:           200,
-		Isbn:            "1234567890",
-		PublicationDate: time.Now(),
-		CreatedAt:       time.Now(),
-		UpdatedAt:       time.Now(),
-	}
-
-	DB.Create(&book)
-
-	fmt.Printf("Book: %+v\n", book)
-
-	// Query and print
-	var queriedBook dbmodels.Book
-	DB.Preload("BookFormats.Format").Preload("BookFormats.Provider").Preload("BookFormats.BookPages").Find(&queriedBook, book.Id)
-	fmt.Printf("Book: %+v\n", queriedBook)
 
 }
