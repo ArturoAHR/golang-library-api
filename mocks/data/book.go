@@ -1,6 +1,7 @@
 package mockdata
 
 import (
+	"fmt"
 	"time"
 
 	dbmodels "github.com/ArturoAHR/golang-library-api/database/models"
@@ -25,7 +26,7 @@ var Books = []dbmodels.Book{
 		Author:          "Roald, Dahl",
 		Pages:           5,
 		Isbn:            "978-0140327595",
-		PublicationDate: parsers.ParseDate("28-09-1989", "25-11-1864"),
+		PublicationDate: parsers.ParseDate("02-01-2006", "28-09-1989"),
 		CreatedAt:       time.Now(),
 		UpdatedAt:       time.Now(),
 	}, {
@@ -34,8 +35,18 @@ var Books = []dbmodels.Book{
 		Author:          "Homero",
 		Pages:           5,
 		Isbn:            "978-1539427698",
-		PublicationDate: parsers.ParseDate("09-10-2016", "25-11-1864"),
+		PublicationDate: parsers.ParseDate("02-01-2006", "01-01-1614"),
 		CreatedAt:       time.Now(),
 		UpdatedAt:       time.Now(),
 	},
+}
+
+func findBookById(id uuid.UUID) (dbmodels.Book, error) {
+	for _, book := range Books {
+		if book.Id == id {
+			return book, nil
+		}
+	}
+
+	return dbmodels.Book{}, fmt.Errorf("book with id %s not found", id)
 }

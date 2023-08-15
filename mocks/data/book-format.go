@@ -1,6 +1,7 @@
 package mockdata
 
 import (
+	"fmt"
 	"time"
 
 	dbmodels "github.com/ArturoAHR/golang-library-api/database/models"
@@ -31,4 +32,14 @@ var BookFormats = []dbmodels.BookFormat{
 		CreatedAt:  time.Now(),
 		UpdatedAt:  time.Now(),
 	},
+}
+
+func findBookFormatById(id uuid.UUID) (dbmodels.BookFormat, error) {
+	for _, bookFormat := range BookFormats {
+		if bookFormat.Id == id {
+			return bookFormat, nil
+		}
+	}
+
+	return dbmodels.BookFormat{}, fmt.Errorf("book format with id %s not found", id)
 }
