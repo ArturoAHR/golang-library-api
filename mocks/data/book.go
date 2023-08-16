@@ -5,7 +5,7 @@ import (
 	"time"
 
 	dbmodels "github.com/ArturoAHR/golang-library-api/database/models"
-	parsers "github.com/ArturoAHR/golang-library-api/internal/utils"
+	utils "github.com/ArturoAHR/golang-library-api/internal/utils"
 	"github.com/google/uuid"
 )
 
@@ -16,7 +16,7 @@ var Books = []dbmodels.Book{
 		Author:          "Julio Verne",
 		Pages:           5,
 		Isbn:            "978-8447326327",
-		PublicationDate: parsers.ParseDate("02-01-2006", "25-11-1864"),
+		PublicationDate: utils.ParseDate("02-01-2006", "25-11-1864"),
 		CreatedAt:       time.Now(),
 		UpdatedAt:       time.Now(),
 	},
@@ -26,7 +26,7 @@ var Books = []dbmodels.Book{
 		Author:          "Roald, Dahl",
 		Pages:           5,
 		Isbn:            "978-0140327595",
-		PublicationDate: parsers.ParseDate("02-01-2006", "28-09-1989"),
+		PublicationDate: utils.ParseDate("02-01-2006", "28-09-1989"),
 		CreatedAt:       time.Now(),
 		UpdatedAt:       time.Now(),
 	}, {
@@ -35,7 +35,7 @@ var Books = []dbmodels.Book{
 		Author:          "Homero",
 		Pages:           5,
 		Isbn:            "978-1539427698",
-		PublicationDate: parsers.ParseDate("02-01-2006", "01-01-1614"),
+		PublicationDate: utils.ParseDate("02-01-2006", "01-01-1614"),
 		CreatedAt:       time.Now(),
 		UpdatedAt:       time.Now(),
 	},
