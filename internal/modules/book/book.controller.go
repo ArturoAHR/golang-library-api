@@ -11,6 +11,9 @@ type BookController struct {
 	service BookService
 }
 
+// GET /book
+//
+// Retrieves a paginated list of books.
 func (c *BookController) getBooks(writer http.ResponseWriter, request *http.Request) {
 	queryParams := request.URL.Query()
 
