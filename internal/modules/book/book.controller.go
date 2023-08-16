@@ -19,6 +19,14 @@ func (c *BookController) getBooks(writer http.ResponseWriter, request *http.Requ
 		PageSize: queryParams.Get("pageSize"),
 	}
 
+	if query.Page == "" {
+		query.Page = "1"
+	}
+
+	if query.PageSize == "" {
+		query.PageSize = "10"
+	}
+
 	err := utils.ValidateStruct(query)
 	if err != nil {
 		utils.SendJSONError(writer, err, http.StatusBadRequest)
