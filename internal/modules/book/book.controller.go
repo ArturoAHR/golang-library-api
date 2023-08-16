@@ -2,16 +2,18 @@ package bookmodule
 
 import "net/http"
 
-type bookController struct{}
+type BookController struct {
+	service BookService
+}
 
-func (b bookController) getBooks(writer http.ResponseWriter, request *http.Request) {
+func (b *BookController) getBooks(writer http.ResponseWriter, request *http.Request) {
 
 }
 
-func (b bookController) getBook(writer http.ResponseWriter, request *http.Request) {
+func (b *BookController) getBook(writer http.ResponseWriter, request *http.Request) {
 
 }
 
-func (b bookController) getBookPage(writer http.ResponseWriter, request *http.Request) {
+func (b *BookController) getBookPage(writer http.ResponseWriter, request *http.Request) {
 
 }
