@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 
 	dbconnection "github.com/ArturoAHR/golang-library-api/internal/database"
 	bookmodule "github.com/ArturoAHR/golang-library-api/internal/modules/book"
@@ -18,9 +20,11 @@ func init() {
 }
 
 func main() {
+	appPort := fmt.Sprintf(":%s", os.Getenv("APP_PORT"))
+
 	router := mux.NewRouter()
 	router.PathPrefix("/book").HandlerFunc(bookmodule.Handler)
 
 	http.Handle("/", router)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(appPort, nil)
 }
