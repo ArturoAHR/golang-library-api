@@ -1,30 +1,30 @@
 package main
 
 import (
+	"fmt"
+	"net/http"
 	"os"
 
+	dbconnection "github.com/ArturoAHR/golang-library-api/internal/database"
+	bookmodule "github.com/ArturoAHR/golang-library-api/internal/modules/book"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
-
-var DB *gorm.DB
 
 func init() {
 	if err := godotenv.Load(); err != nil {
-		panic("No .env file found")
+		panic("no .env file found")
 	}
 
-	dsn := os.Getenv("GORM_DSN")
-	tmpDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic("failed to connect database")
-	}
-
-	DB = tmpDB
+	dbconnection.GetInstance()
 }
 
 func main() {
+	appPort := fmt.Sprintf(":%s", os.Getenv("APP_PORT"))
 
+	router := mux.NewRouter()
+	router.PathPrefix("/book").HandlerFunc(bookmodule.Handler)
+
+	http.Handle("/", router)
+	http.ListenAndServe(appPort, nil)
 }
