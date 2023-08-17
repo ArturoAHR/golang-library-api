@@ -2,6 +2,7 @@ package bookmodule
 
 import (
 	"net/http"
+	"strconv"
 
 	bookmoduletypes "github.com/ArturoAHR/golang-library-api/internal/modules/book/types"
 	"github.com/ArturoAHR/golang-library-api/internal/utils"
@@ -77,26 +78,22 @@ func (c *BookController) getBook(writer http.ResponseWriter, request *http.Reque
 }
 
 func (c *BookController) getBookPage(writer http.ResponseWriter, request *http.Request) {
-	queryParams := request.URL.Query()
 
 	vars := mux.Vars(request)
 	bookFormatId := vars["versionId"]
+	pageNumberString := vars["pageNumber"]
 
-	query := bookmoduletypes.GetBookPageQueryDto{
-		Page: queryParams.Get("page"),
+	if pageNumberString == "" {
+		pageNumberString = "1"
 	}
 
-	if query.Page == "" {
-		query.Page = "1"
-	}
-
-	err := utils.ValidateStruct(query)
+	pageNumber, err := strconv.Atoi(pageNumberString)
 	if err != nil {
-		utils.SendJSONError(writer, err, http.StatusBadRequest)
+		utils.SendJSONError(writer, err, http.StatusInternalServerError)
 		return
 	}
 
-	bookPage, err := c.service.GetBookPage(bookFormatId, utils.MustAtoi(query.Page))
+	bookPage, err := c.service.GetBookPage(bookFormatId, pageNumber)
 	if err != nil {
 		utils.SendJSONError(writer, err, http.StatusInternalServerError)
 		return
