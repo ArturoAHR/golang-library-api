@@ -5,6 +5,7 @@ import (
 
 	bookmoduletypes "github.com/ArturoAHR/golang-library-api/internal/modules/book/types"
 	"github.com/ArturoAHR/golang-library-api/internal/utils"
+	"github.com/gorilla/mux"
 )
 
 type BookController struct {
@@ -55,8 +56,24 @@ func (c *BookController) getBooks(writer http.ResponseWriter, request *http.Requ
 	utils.SendJSONResponse(writer, response, http.StatusOK)
 }
 
+// GET /book/:bookId
+//
+// Retrieves a book by its id, with its tied entities except for pages.
 func (c *BookController) getBook(writer http.ResponseWriter, request *http.Request) {
+	vars := mux.Vars(request)
+	bookId := vars["bookId"]
 
+	book, err := c.service.GetBookById(bookId)
+	if err != nil {
+		utils.SendJSONError(writer, err, http.StatusInternalServerError)
+		return
+	}
+
+	response := bookmoduletypes.GetBookByIdResponseDto{
+		Book: book,
+	}
+
+	utils.SendJSONResponse(writer, response, http.StatusOK)
 }
 
 func (c *BookController) getBookPage(writer http.ResponseWriter, request *http.Request) {
