@@ -49,7 +49,7 @@ func (r *BookRepository) CountBooks(filters bookmoduletypes.GetBooksFilter) (int
 func (r *BookRepository) GetBookPage(bookFormatId string, pageNumber int) (dbmodels.BookPage, error) {
 	var bookPage dbmodels.BookPage
 
-	result := r.db.Preload("BookFormat").Preload("BookFormat.Format").Preload("BookFormat.Provider").Preload("BookFormat.Book").First(&bookPage).Where("book_format_id = ? AND page_number = ?", bookFormatId, pageNumber)
+	result := r.db.Preload("BookFormat").Preload("BookFormat.Format").Preload("BookFormat.Provider").Preload("BookFormat.Book").Where("book_format_id = ? AND page_number = ?", bookFormatId, pageNumber).First(&bookPage)
 	if result.Error != nil {
 		return dbmodels.BookPage{}, result.Error
 	}
