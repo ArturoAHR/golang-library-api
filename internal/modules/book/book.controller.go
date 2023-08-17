@@ -2,6 +2,7 @@ package bookmodule
 
 import (
 	"net/http"
+	"strconv"
 
 	bookmoduletypes "github.com/ArturoAHR/golang-library-api/internal/modules/book/types"
 	"github.com/ArturoAHR/golang-library-api/internal/utils"
@@ -76,6 +77,34 @@ func (c *BookController) getBook(writer http.ResponseWriter, request *http.Reque
 	utils.SendJSONResponse(writer, response, http.StatusOK)
 }
 
+// GET /book/version/:versionId/page/:pageNumber
+//
+// Gets a book page from a book format id and a page number, with its tied entities.
 func (c *BookController) getBookPage(writer http.ResponseWriter, request *http.Request) {
 
+	vars := mux.Vars(request)
+	bookFormatId := vars["versionId"]
+	pageNumberString := vars["pageNumber"]
+
+	if pageNumberString == "" {
+		pageNumberString = "1"
+	}
+
+	pageNumber, err := strconv.Atoi(pageNumberString)
+	if err != nil {
+		utils.SendJSONError(writer, err, http.StatusInternalServerError)
+		return
+	}
+
+	bookPage, err := c.service.GetBookPage(bookFormatId, pageNumber)
+	if err != nil {
+		utils.SendJSONError(writer, err, http.StatusInternalServerError)
+		return
+	}
+
+	response := bookmoduletypes.GetBookPageResponseDto{
+		BookPage: bookPage,
+	}
+
+	utils.SendJSONResponse(writer, response, http.StatusOK)
 }
