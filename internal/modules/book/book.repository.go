@@ -27,7 +27,7 @@ func (r *BookRepository) GetBooks(filters bookmoduletypes.GetBooksFilter) ([]dbm
 func (r *BookRepository) GetBookById(bookId string) (dbmodels.Book, error) {
 	var book dbmodels.Book
 
-	result := r.db.Preload("BookFormats").Preload("BookFormats.Format").Preload("BookFormats.Provider").First(&book).Where("id = ?", bookId)
+	result := r.db.Preload("BookFormats").Preload("BookFormats.Format").Preload("BookFormats.Provider").Where("id = ?", bookId).First(&book)
 	if result.Error != nil {
 		return dbmodels.Book{}, result.Error
 	}
