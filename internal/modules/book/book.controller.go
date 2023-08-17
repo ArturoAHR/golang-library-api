@@ -77,5 +77,34 @@ func (c *BookController) getBook(writer http.ResponseWriter, request *http.Reque
 }
 
 func (c *BookController) getBookPage(writer http.ResponseWriter, request *http.Request) {
+	queryParams := request.URL.Query()
 
+	vars := mux.Vars(request)
+	bookFormatId := vars["versionId"]
+
+	query := bookmoduletypes.GetBookPageQueryDto{
+		Page: queryParams.Get("page"),
+	}
+
+	if query.Page == "" {
+		query.Page = "1"
+	}
+
+	err := utils.ValidateStruct(query)
+	if err != nil {
+		utils.SendJSONError(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	bookPage, err := c.service.GetBookPage(bookFormatId, utils.MustAtoi(query.Page))
+	if err != nil {
+		utils.SendJSONError(writer, err, http.StatusInternalServerError)
+		return
+	}
+
+	response := bookmoduletypes.GetBookPageResponseDto{
+		BookPage: bookPage,
+	}
+
+	utils.SendJSONResponse(writer, response, http.StatusOK)
 }
