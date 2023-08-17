@@ -77,6 +77,9 @@ func (c *BookController) getBook(writer http.ResponseWriter, request *http.Reque
 	utils.SendJSONResponse(writer, response, http.StatusOK)
 }
 
+// GET /book/version/:versionId/page/:pageNumber
+//
+// Gets a book page from a book format id and a page number, with its tied entities.
 func (c *BookController) getBookPage(writer http.ResponseWriter, request *http.Request) {
 
 	vars := mux.Vars(request)
