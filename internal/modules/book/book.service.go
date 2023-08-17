@@ -30,3 +30,7 @@ func (s *BookService) GetBooks(filter bookmoduletypes.GetBooksFilter) ([]dbmodel
 
 	return books, metadata, nil
 }
+
+func (s *BookService) GetBookById(bookId string) (dbmodels.Book, error) {
+	return s.repository.GetBookById(bookId)
+}

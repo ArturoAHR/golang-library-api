@@ -24,6 +24,17 @@ func (r *BookRepository) GetBooks(filters bookmoduletypes.GetBooksFilter) ([]dbm
 	return books, nil
 }
 
+func (r *BookRepository) GetBookById(bookId string) (dbmodels.Book, error) {
+	var book dbmodels.Book
+
+	result := r.db.Preload("BookFormats").Preload("BookFormats.Format").Preload("BookFormats.Provider").First(&book).Where("id = ?", bookId)
+	if result.Error != nil {
+		return dbmodels.Book{}, result.Error
+	}
+
+	return book, nil
+}
+
 func (r *BookRepository) CountBooks(filters bookmoduletypes.GetBooksFilter) (int, error) {
 	var count int64
 
